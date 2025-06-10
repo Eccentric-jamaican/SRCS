@@ -1,0 +1,339 @@
+/* Custom color palette - Enhanced Racing Green Theme */
+:root {
+    --racing-green: #006341;       /* Primary racing green - deeper and richer */
+    --racing-green-light: #00875A;  /* Lighter accent green */
+    --racing-green-lighter: #00A572; /* Even lighter for highlights */
+    --racing-green-dark: #004D2E;   /* Darker shade for hover states */
+    --racing-green-darker: #003820;  /* Darkest for text on light backgrounds */
+    --racing-green-glow: rgba(0, 163, 108, 0.2); /* For subtle glows */
+    --racing-green-50: #f0f7f0;
+    --racing-green-100: #d9f0d9;
+    --racing-green-200: #b3e1b3;
+    --racing-green-300: #8dd28d;
+    --racing-green-400: #67c367;
+    --racing-green-500: #41b441;
+    --racing-green-600: #349034;
+    --racing-green-700: #276c27;
+    --racing-green-800: #1a481a;
+    --racing-green-900: #0d240d;
+}
+
+/* Tailwind Base styles - Mobile First */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles */
+@layer components {
+    /* Custom racing green color */
+    .bg-racing-green-400 {
+        background-color: var(--racing-green-lighter);
+    }
+    .bg-racing-green-500 {
+        background-color: var(--racing-green);
+    }
+    .bg-racing-green-600 {
+        background-color: var(--racing-green-dark);
+    }
+    .bg-racing-green-700 {
+        background-color: var(--racing-green-darker);
+    }
+    .text-racing-green-300 {
+        color: var(--racing-green-lighter);
+    }
+    .text-racing-green-400 {
+        color: var(--racing-green-light);
+    }
+    .text-racing-green-500 {
+        color: var(--racing-green);
+    }
+    .text-racing-green-600 {
+        color: var(--racing-green-dark);
+    }
+    .border-racing-green-400 {
+        border-color: var(--racing-green-light);
+    }
+    .border-racing-green-500 {
+        border-color: var(--racing-green);
+    }
+    .border-racing-green-600 {
+        border-color: var(--racing-green-dark);
+    }
+    .ring-racing-green-500 {
+        --tw-ring-color: var(--racing-green);
+    }
+    .ring-racing-green-400 {
+        --tw-ring-color: var(--racing-green-light);
+    }
+    .focus\:ring-racing-green-500:focus {
+        --tw-ring-color: var(--racing-green);
+        box-shadow: 0 0 0 3px var(--racing-green-glow);
+    }
+    .focus\:border-racing-green-500:focus {
+        border-color: var(--racing-green);
+    }
+    
+    /* Smooth scrolling */
+    @media (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: var(--racing-green);
+        border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--racing-green-dark);
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideInRight {
+        from { transform: translateX(100%); }
+        to { transform: translateX(0); }
+    }
+    
+    @keyframes slideOutRight {
+        from { transform: translateX(0); }
+        to { transform: translateX(100%); }
+    }
+    
+    .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    
+    .animate-slide-in-right {
+        animation: slideInRight 0.3s ease-out forwards;
+    }
+    
+    .animate-slide-out-right {
+        animation: slideOutRight 0.3s ease-out forwards;
+    }
+    
+    /* Navigation */
+    .mobile-nav {
+        @apply fixed inset-0 z-50 bg-black bg-opacity-75 transition-opacity duration-300 ease-in-out;
+        opacity: 0;
+        pointer-events: none;
+    }
+    
+    .mobile-nav.open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .mobile-menu {
+        @apply fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out;
+        transform: translateX(100%);
+    }
+    
+    .mobile-menu.open {
+        transform: translateX(0);
+    }
+    
+    .mobile-menu-enter {
+        transform: translateX(100%);
+    }
+    
+    .mobile-menu-enter-active {
+        transform: translateX(0);
+        transition: transform 300ms ease-in-out;
+    }
+    
+    .mobile-menu-exit {
+        transform: translateX(0);
+    }
+    
+    .mobile-menu-exit-active {
+        transform: translateX(100%);
+        transition: transform 300ms ease-in-out;
+    }
+    
+    .nav-link {
+        @apply block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition-colors duration-200;
+    }
+    
+    .nav-link.active {
+        @apply bg-racing-green-500 text-white hover:bg-racing-green-600;
+    }
+    
+    /* Utility classes */
+    .container {
+        @apply w-full px-4 mx-auto;
+        @apply sm:px-6;
+        @apply lg:px-8;
+        @apply xl:max-w-7xl;
+    }
+    
+    /* Responsive typography */
+    h1 {
+        @apply text-3xl font-bold text-white;
+        @apply sm:text-4xl;
+        @apply lg:text-5xl;
+    }
+    
+    h2 {
+        @apply text-2xl font-bold text-white;
+        @apply sm:text-3xl;
+        @apply lg:text-4xl;
+    }
+    
+    p {
+        @apply text-gray-300 leading-relaxed;
+        @apply sm:text-base;
+    }
+    
+    /* Modal transitions */
+    .modal-enter {
+        opacity: 0;
+    }
+    
+    .modal-enter-active {
+        opacity: 1;
+        transition: opacity 200ms ease-in-out;
+    }
+    
+    .modal-exit {
+        opacity: 1;
+    }
+    
+    .modal-exit-active {
+        opacity: 0;
+        transition: opacity 200ms ease-in-out;
+    }
+    
+    /* Blog cards - Mobile First */
+    .blog-card {
+        @apply bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 border border-gray-700;
+        @apply hover:shadow-xl hover:shadow-racing-green-500/10 hover:border-racing-green-500/30;
+    }
+    
+    .blog-card .blog-title {
+        @apply text-lg font-bold text-white transition-colors duration-200;
+        @apply sm:text-xl;
+    }
+    
+    .blog-card:hover .blog-title {
+        @apply text-racing-green-400;
+    }
+    
+    .blog-tag {
+        @apply inline-block px-2 py-1 text-xs font-medium rounded-full bg-racing-green-500/10 text-racing-green-400 mr-2 mb-2;
+    }
+    
+    .blog-card-meta {
+        @apply text-sm text-gray-400 mb-4;
+    }
+    
+    .blog-card-excerpt {
+        @apply text-gray-300 mb-4 line-clamp-3;
+    }
+    
+    .blog-card-tag {
+        @apply inline-block bg-gray-700 text-racing-green-300 hover:bg-racing-green-900 hover:text-white transition-colors duration-200 text-xs px-3 py-1 rounded-full mr-2 mb-2;
+    }
+    
+    /* Form elements - Mobile First */
+    .form-input,
+    .form-textarea,
+    .form-select {
+        @apply w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-racing-green-500 focus:border-transparent text-base;
+        @apply sm:py-2;
+    }
+    
+    .form-label {
+        @apply block text-sm font-medium text-gray-300 mb-2;
+    }
+    
+    .form-group {
+        @apply mb-4;
+    }
+    
+    .form-textarea {
+        @apply mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-racing-green-500 focus:border-racing-green-500;
+    }
+    
+    /* Buttons - Mobile First */
+    /* Blog Cards */
+    .blog-card {
+        @apply bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .blog-card:hover {
+        transform: translateY(-4px);
+    }
+    
+    .blog-card-image {
+        @apply w-full h-48 bg-gray-200 bg-cover bg-center;
+    }
+    
+    .blog-card-content {
+        @apply p-6 flex-1 flex flex-col;
+    }
+    
+    .blog-card-title {
+        @apply text-xl font-bold text-gray-900 mb-2 line-clamp-2;
+    }
+    
+    .blog-card-excerpt {
+        @apply text-gray-600 mb-4 line-clamp-3 flex-1;
+    }
+    
+    .blog-card-meta {
+        @apply flex items-center justify-between text-sm text-gray-500 mt-4;
+    }
+    
+    .blog-card-date {
+        @apply flex items-center;
+    }
+    
+    .blog-card-category {
+        @apply px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full;
+    }
+    
+    /* Buttons */
+    .btn {
+        @apply w-full px-4 py-3 rounded-md font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-racing-green-500 text-center;
+        @apply sm:w-auto;
+    }
+    
+    .btn-primary {
+        @apply bg-racing-green-600 hover:bg-racing-green-700 text-white shadow-md hover:shadow-racing-green-500/30;
+    }
+    
+    .btn-outline {
+        @apply border border-racing-green-500 text-racing-green-500 hover:bg-racing-green-500/10;
+    }
+    
+    .btn-secondary {
+        @apply bg-gray-700 hover:bg-gray-600 border border-gray-600 hover:border-racing-green-400 text-gray-200 hover:text-white font-medium py-2 px-4 rounded-md transition-all duration-200 hover:shadow-md hover:shadow-racing-green-500/20;
+    }
+    
+    /* Utilities */
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+}

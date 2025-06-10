@@ -20,14 +20,46 @@ coverage
 # nyc test coverage
 .nyc_output
 
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
+# Environment variables
+.env
+.env.local
+.env.*.local
 
-# Bower dependency directory (https://bower.io/)
-bower_components
+# Firebase
+.firebase/
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
 
-# node-waf configuration
-.lock-wscript
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local development
+.firebase/
+.firebaserc
+
+# Misc
+.DS_Store
+Thumbs.db
+
+# Firebase config (sensitive)
+public/js/firebase-config.js
+
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release

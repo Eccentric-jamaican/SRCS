@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0d240d">
+    <title>Spectacular Recovery & Collection Services</title>
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Critical CSS -->
+    <style>
+        /* Critical CSS for above-the-fold content */
+        .no-js .js-required { display: none; }
+        .js .js-required { display: block; }
+        .loading { opacity: 0; transition: opacity 0.3s ease-in; }
+        .loaded { opacity: 1; }
+    </style>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <!-- Fallback CSS loading -->
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"></noscript>
+    <noscript><link rel="stylesheet" href="css/styles.css"></noscript>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Firebase SDK (defer non-critical) -->
+    <script defer src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script defer src="js/firebase-config.js"></script>
+    
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#0d240d" media="(prefers-color-scheme: dark)">
+    
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Preload hero image if you have one -->
+    <!-- <link rel="preload" as="image" href="/images/hero.jpg" media="(max-width: 600px)">
+    <link rel="preload" as="image" href="/images/hero-desktop.jpg" media="(min-width: 601px)"> -->
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col js">
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-gray-900 focus:text-white focus:ring-2 focus:ring-racing-green-500 focus:rounded">
+        Skip to main content
+    </a>
+
+    <!-- Navigation -->
+    <header class="bg-gray-800 border-b border-gray-700 fixed w-full z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="flex items-center h-16 px-2 -ml-2">
+                        <img src="images/logo.png" alt="Spectacular Recovery & Collection Services Logo" class="h-12 w-auto md:h-14">
+                        <span class="ml-3 text-2xl font-bold text-racing-green-400 hidden md:inline-block">SRCS</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-1">
+                        <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                        <li><a href="#blog" class="nav-link" data-section="blog">Blog</a></li>
+                        <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <!-- Auth Buttons - Desktop -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button id="loginBtn" class="btn btn-outline">
+                        <i class="fab fa-google mr-2"></i> Login
+                    </button>
+                    <button id="logoutBtn" class="btn btn-primary hidden">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </button>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobileMenuBtn" class="text-gray-300 hover:text-white focus:outline-none p-2 -mr-2" 
+                            aria-expanded="false" aria-label="Toggle menu" aria-controls="mobileMenu">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="md:hidden hidden bg-gray-800 border-t border-gray-700 transition-all duration-300 ease-in-out">
+            <div class="px-2 pt-2 pb-4 space-y-1">
+                <a href="#home" class="block px-4 py-3 text-base font-medium text-white bg-gray-900 rounded-md">
+                    <i class="fas fa-home mr-3 w-5 text-center"></i> Home
+                </a>
+                <a href="#blog" class="block px-4 py-3 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <i class="fas fa-newspaper mr-3 w-5 text-center"></i> Blog
+                </a>
+                <a href="#contact" class="block px-4 py-3 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white rounded-md">
+                    <i class="fas fa-envelope mr-3 w-5 text-center"></i> Contact
+                </a>
+                <div class="pt-2 border-t border-gray-700 mt-2">
+                    <button id="mobileLoginBtn" class="w-full flex items-center justify-center py-3 px-4 border border-racing-green-500 rounded-md shadow-sm text-base font-medium text-racing-green-400 bg-racing-green-500/10 hover:bg-racing-green-500/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-racing-green-500">
+                        <i class="fab fa-google mr-2"></i> Login with Google
+                    </button>
+                    <button id="mobileLogoutBtn" class="hidden w-full flex items-center justify-center py-3 px-4 mt-2 border border-gray-600 rounded-md shadow-sm text-base font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Add padding for fixed navbar -->
+    <div class="pt-16"></div>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative bg-gradient-to-br from-gray-900 to-gray-800 py-16 md:py-24 overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute inset-0 overflow-hidden opacity-20">
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgxMDIsIDIxNiwgMTQyLCAwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==')]"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/80"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Hero Content -->
+                <div class="text-center lg:text-left">
+                    <span class="inline-block px-3 py-1 mb-4 text-xs font-semibold text-racing-green-300 bg-racing-green-900/30 rounded-full border border-racing-green-500/20">
+                        Professional Debt Recovery
+                    </span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        <span class="block">Recover What's Yours</span>
+                        <span class="text-racing-green-400">With Confidence</span>
+                    </h1>
+                    <p class="text-lg sm:text-xl text-gray-300 mb-8 max-w-2xl mx-auto lg:mx-0">
+                        We help businesses and individuals recover outstanding debts with professionalism, integrity, and a personal touch that sets us apart.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#contact" class="btn btn-primary">
+                            Get Started
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                        <a href="#services" class="btn btn-outline">
+                            Our Services
+                        </a>
+                    </div>
+                    
+                    <!-- Trust badges -->
+                    <div class="mt-12 pt-6 border-t border-gray-700/50">
+                        <p class="text-sm text-gray-400 mb-4">Trusted by businesses nationwide</p>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <div class="text-2xl font-bold text-white">1000+</div>
+                                <div class="text-xs text-gray-400">Clients</div>
+                            </div>
+                            <div class="border-l border-r border-gray-700">
+                                <div class="text-2xl font-bold text-white">98%</div>
+                                <div class="text-xs text-gray-400">Success Rate</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-white">24/7</div>
+                                <div class="text-xs text-gray-400">Support</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hero Image/Illustration -->
+                <div class="relative">
+                    <div class="relative z-10 bg-gray-800/50 border border-gray-700/50 rounded-2xl p-8 backdrop-blur-sm">
+                        <div class="aspect-w-16 aspect-h-9 bg-gradient-to-br from-racing-green-600/30 to-racing-green-800/30 rounded-xl flex items-center justify-center p-8">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-racing-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <svg class="h-8 w-8 text-racing-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-2">Secure & Reliable</h3>
+                                <p class="text-racing-green-100 text-sm">Your financial security is our top priority</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Decorative elements -->
+                    <div class="absolute -top-6 -right-6 w-40 h-40 bg-racing-green-500/10 rounded-full filter blur-3xl"></div>
+                    <div class="absolute -bottom-10 -left-10 w-48 h-48 bg-racing-green-400/5 rounded-full filter blur-3xl"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Wave divider -->
+        <div class="absolute bottom-0 left-0 right-0 overflow-hidden">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" class="w-full h-12 md:h-16">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512,64,583,67.3c104.4,6,202.2-28,296-60.9,28.8-10.2,59-18.4,92-22.4v400H0Z" class="fill-current text-gray-900"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Blog Section -->
+        <section id="blog" class="py-16 bg-gradient-to-b from-gray-900 to-gray-800">
+            <div class="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-racing-green-500 to-transparent opacity-20"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-white sm:text-5xl font-serif mb-4">
+                        <span class="relative inline-block">
+                            <span class="relative z-10">Latest from our Blog</span>
+                            <span class="absolute bottom-1 left-0 w-full h-3 bg-racing-green-500/20 -z-0"></span>
+                        </span>
+                    </h2>
+                    <div class="w-24 h-1 bg-racing-green-400 mx-auto mt-4 rounded-full"></div>
+                    <p class="mt-6 text-lg text-gray-300 max-w-2xl mx-auto">Insights, updates, and news from the world of debt recovery and financial services.</p>
+                </div>
+                <div id="blogPosts" class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3 relative">
+                    <!-- Decorative elements -->
+                    <div class="absolute -top-10 -left-10 w-32 h-32 bg-racing-green-500/10 rounded-full filter blur-3xl opacity-50"></div>
+                    <div class="absolute bottom-0 -right-10 w-40 h-40 bg-racing-green-400/10 rounded-full filter blur-3xl opacity-30"></div>
+                    <!-- Blog posts will be dynamically loaded here -->
+                </div>
+                
+                <!-- Admin Controls (hidden by default) -->
+                <div id="adminControls" class="mt-12 text-center hidden">
+                    <div class="inline-flex items-center px-6 py-3 bg-gray-800/50 border border-gray-700 rounded-lg shadow-xl backdrop-blur-sm">
+                        <span class="text-racing-green-400 mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                        </span>
+                        <button id="newPostBtn" class="btn-primary">
+                            New Blog Post
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-12 bg-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                    <span class="block">Contact</span>
+                    <span class="block text-racing-green-400">Us</span>
+                </h2>
+                <div class="mt-8 bg-gray-700 rounded-lg p-6">
+                    <form id="contactForm" class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-300">Name</label>
+                            <input type="text" id="name" name="name" required class="mt-1 block w-full px-3 py-2 bg-gray-600 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-racing-green-500 focus:border-racing-green-500">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+                            <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 bg-gray-600 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-racing-green-500 focus:border-racing-green-500">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-300">Message</label>
+                            <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-3 py-2 bg-gray-600 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-racing-green-500 focus:border-racing-green-500"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-racing-green-600 hover:bg-racing-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-racing-green-500">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-racing-green-900">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-racing-green-400 font-bold text-xl">SRCS</span>
+                        <span class="text-racing-green-600 text-2xl font-light">|</span>
+                        <span class="text-gray-400 text-sm">Spectacular Recovery & Collection Services</span>
+                    </div>
+                    <p class="text-gray-500 text-xs mt-1"> 2025 All rights reserved.</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <button id="privacyPolicyBtn" class="text-gray-400 hover:text-racing-green-300 transition-colors duration-200 text-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                        Privacy Policy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300">
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700/50 rounded-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl transform transition-all duration-300 scale-95 opacity-0" id="privacyModalContent">
+            <!-- Decorative elements -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-racing-green-400 via-racing-green-600 to-racing-green-400"></div>
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white font-serif">Privacy Policy</h3>
+                        <div class="w-12 h-1 bg-racing-green-400 mt-2 rounded-full"></div>
+                    </div>
+                    <button id="closeModal" class="text-gray-400 hover:text-racing-green-300 transition-colors duration-200 p-1 -mt-2 -mr-2">
+                        <span class="sr-only">Close</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="prose prose-invert max-w-none text-gray-300 space-y-4">
+                    <p class="text-gray-300 leading-relaxed">
+                        At Spectacular Recovery & Collection Services, we are committed to protecting your privacy and ensuring the security of your personal information. This policy outlines how we collect, use, and safeguard your data.
+                    </p>
+                    <p>This privacy policy sets out how Spectacular Recovery & Collection Services uses and protects any information that you give when you use this website.</p>
+                    <p>We are committed to ensuring that your privacy is protected. Should we ask you to provide certain information by which you can be identified when using this website, then you can be assured that it will only be used in accordance with this privacy statement.</p>
+                    <h4 class="font-medium text-white">What we collect</h4>
+                    <p>We may collect the following information:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Name and job title</li>
+                        <li>Contact information including email address</li>
+                        <li>Demographic information such as postcode, preferences, and interests</li>
+                        <li>Other information relevant to customer surveys and/or offers</li>
+                    </ul>
+                    <h4 class="font-medium text-white">Security</h4>
+                    <p>We are committed to ensuring that your information is secure. In order to prevent unauthorized access or disclosure, we have put in place suitable physical, electronic, and managerial procedures to safeguard and secure the information we collect online.</p>
+                </div>
+                <div class="mt-8 pt-6 border-t border-gray-700/50">
+                    <button id="acceptPrivacy" class="btn-primary w-full flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        <span>I Understand</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Post Modal (Hidden by default) -->
+    <div id="blogModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 transition-opacity duration-300">
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700/50 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all duration-300 scale-95 opacity-0" id="blogModalContent">
+            <!-- Decorative elements -->
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-racing-green-400 via-racing-green-600 to-racing-green-400"></div>
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h3 id="modalTitle" class="text-2xl font-bold text-white font-serif">New Blog Post</h3>
+                        <div class="w-12 h-1 bg-racing-green-400 mt-2 rounded-full"></div>
+                    </div>
+                    <button id="closeBlogModal" class="text-gray-400 hover:text-racing-green-300 transition-colors duration-200 p-1 -mt-2 -mr-2">
+                        <span class="sr-only">Close</span>
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <form id="blogPostForm" class="mt-4 space-y-4">
+                    <input type="hidden" id="postId">
+                    <div>
+                        <label for="postTitle" class="block text-sm font-medium text-gray-300">Title</label>
+                        <input type="text" id="postTitle" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-racing-green-500 focus:border-racing-green-500">
+                    </div>
+                    <div>
+                        <label for="postAuthor" class="block text-sm font-medium text-gray-300">Author</label>
+                        <input type="text" id="postAuthor" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-racing-green-500 focus:border-racing-green-500">
+                    </div>
+                    <div>
+                        <label for="postContent" class="block text-sm font-medium text-gray-300">Content</label>
+                        <textarea id="postContent" rows="6" required class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-racing-green-500 focus:border-racing-green-500"></textarea>
+                    </div>
+                    <div>
+                        <label for="postTags" class="block text-sm font-medium text-gray-300">Tags (comma-separated)</label>
+                        <input type="text" id="postTags" class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm text-white focus:outline-none focus:ring-racing-green-500 focus:border-racing-green-500" placeholder="debt, collections, finance">
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" id="cancelPost" class="px-4 py-2 border border-gray-600 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700">
+                            Cancel
+                        </button>
+                        <button type="submit" id="savePost" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-racing-green-600 hover:bg-racing-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-racing-green-500">
+                            Save Post
+                        </button>
+                        <button type="button" id="deletePost" class="hidden px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            Delete
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase and App JS -->
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
